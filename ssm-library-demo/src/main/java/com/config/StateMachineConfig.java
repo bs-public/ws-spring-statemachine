@@ -16,12 +16,19 @@ import com.states.BookStates;
 @Configuration
 @EnableStateMachine
 public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<BookStates, BookEvents> {
-	
+	// @formatter:off
+    @Override
+    public void configure(StateMachineConfigurationConfigurer<BookStates, BookEvents> config) throws Exception {
+    	config.withConfiguration()
+             .autoStartup(true)
+             .listener(new LoggingMachineListener());
+	}
+
 	@Override
     public void configure(StateMachineStateConfigurer<BookStates, BookEvents> states) throws Exception {
        states.withStates()
-               .initial(BookStates.AVAILABLE)
-               .states(EnumSet.allOf(BookStates.class));
+           .initial(BookStates.AVAILABLE)
+           .states(EnumSet.allOf(BookStates.class));
     }
 
     @Override
@@ -46,12 +53,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<BookSt
                 .source(BookStates.IN_REPAIR)
                 .target(BookStates.AVAILABLE)
                 .event(BookEvents.END_REPAIR);
-    }
-    
-    @Override
-    public void configure(StateMachineConfigurationConfigurer<BookStates, BookEvents> config) throws Exception {
-        config.withConfiguration()
-                .autoStartup(true)
-                .listener(new LoggingMachineListener());
-    }
+    }    
+   // @formatter:on
 }
