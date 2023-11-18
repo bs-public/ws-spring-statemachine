@@ -24,30 +24,33 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 
 	private final Logger logger = LoggerFactory.getLogger(StateMachineConfig.class);
 
+	// @formatter:off
 	@Override
 	public void configure(StateMachineConfigurationConfigurer<States, Events> config) throws Exception {
-		config 
-        .withConfiguration()
+		config.withConfiguration()
             .autoStartup(true)
             .listener(listener());
 	}
 
 	@Override
 	public void configure(StateMachineStateConfigurer<States, Events> states) throws Exception {
-		states
-        .withStates()
+		states.withStates()
             .initial(States.SI)
-                .states(EnumSet.allOf(States.class));
+            .states(EnumSet.allOf(States.class));
 	}
 
 	@Override
 	public void configure(StateMachineTransitionConfigurer<States, Events> transitions) throws Exception {
 		transitions
         	.withExternal()
-            	.source(States.SI).target(States.S1).event(Events.E1)
-            	.and()
+            	.source(States.SI)
+            	.target(States.S1)
+            	.event(Events.E1)
+            .and()
             .withExternal()
-            	.source(States.S1).target(States.S2).event(Events.E2);
+            	.source(States.S1)
+            	.target(States.S2)
+            	.event(Events.E2);
 	}
 
 	@Bean
@@ -59,4 +62,5 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 			}
 		};
 	}
+	// @formatter:on
 }
