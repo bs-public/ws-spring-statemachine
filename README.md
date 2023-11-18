@@ -1,5 +1,6 @@
-# ws-spring-statemachine
-Workspace for Spring statemachine
+## spring statemachine
+workspace for spring statemachine
 
-- App1: [ssm-demo](https://github.com/bs-public/ws-spring-statemachine/tree/main/ssm-demo/) 
+- app1: [ssm-demo](https://github.com/bs-public/ws-spring-statemachine/tree/main/ssm-demo/)
+- app2: [ssm-library-demo](https://github.com/bs-public/ws-spring-statemachine/tree/main/ssm-library-demo/)
 
