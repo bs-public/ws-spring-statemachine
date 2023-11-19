@@ -1,17 +1,12 @@
 package com.config;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
-import org.springframework.statemachine.listener.StateMachineListener;
-import org.springframework.statemachine.listener.StateMachineListenerAdapter;
-import org.springframework.statemachine.state.State;
+
 import com.events.Events;
 import com.states.States;
 
@@ -19,14 +14,12 @@ import com.states.States;
 @EnableStateMachine
 public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States, Events> {
 
-	private final Logger logger = LoggerFactory.getLogger(StateMachineConfig.class);
-
 	// @formatter:off
 	@Override
 	public void configure(StateMachineConfigurationConfigurer<States, Events> config) throws Exception {
 		config.withConfiguration()
             .autoStartup(true)
-            .listener(listener());
+            .listener(new StateMachineListener());
 	}
 
 	@Override
@@ -55,17 +48,6 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 				.source(States.STATE2)
 				.target(States.END)
 				.event(Events.EVENT3);
-	}
-
-	@Bean
-	public StateMachineListener<States, Events> listener() {
-		return new StateMachineListenerAdapter<States, Events>() {
-			@Override
-			public void stateChanged(State<States, Events> from, State<States, Events> to) {
-				String fromState = (from == null) ? States.START.toString() : from.getId().toString();
-				logger.info("State change from {} to {} with event {}", fromState, to.getId());
-			}
-		};
 	}
 	// @formatter:on
 }
