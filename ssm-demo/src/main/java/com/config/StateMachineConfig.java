@@ -1,7 +1,5 @@
 package com.config;
 
-import java.util.EnumSet;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +12,6 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 import org.springframework.statemachine.listener.StateMachineListener;
 import org.springframework.statemachine.listener.StateMachineListenerAdapter;
 import org.springframework.statemachine.state.State;
-
 import com.events.Events;
 import com.states.States;
 
@@ -35,22 +32,29 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 	@Override
 	public void configure(StateMachineStateConfigurer<States, Events> states) throws Exception {
 		states.withStates()
-            .initial(States.SI)
-            .states(EnumSet.allOf(States.class));
+            .initial(States.START)
+            .state(States.STATE1)
+            .state(States.STATE2)
+			.end(States.END);
 	}
 
 	@Override
 	public void configure(StateMachineTransitionConfigurer<States, Events> transitions) throws Exception {
 		transitions
         	.withExternal()
-            	.source(States.SI)
-            	.target(States.S1)
-            	.event(Events.E1)
+            	.source(States.START)
+            	.target(States.STATE1)
+            	.event(Events.EVENT1)
             .and()
             .withExternal()
-            	.source(States.S1)
-            	.target(States.S2)
-            	.event(Events.E2);
+            	.source(States.STATE1)
+            	.target(States.STATE2)
+            	.event(Events.EVENT2)
+			.and()
+			.withExternal()
+				.source(States.STATE2)
+				.target(States.END)
+				.event(Events.EVENT3);
 	}
 
 	@Bean
@@ -58,7 +62,8 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<States
 		return new StateMachineListenerAdapter<States, Events>() {
 			@Override
 			public void stateChanged(State<States, Events> from, State<States, Events> to) {
-				logger.info("State change to {}", to.getId());
+				String fromState = (from == null) ? States.START.toString() : from.getId().toString();
+				logger.info("State change from {} to {} with event {}", fromState, to.getId());
 			}
 		};
 	}

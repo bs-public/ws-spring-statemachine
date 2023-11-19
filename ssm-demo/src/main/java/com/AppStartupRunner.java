@@ -1,4 +1,4 @@
-package com.config;
+package com;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +21,9 @@ public class AppStartupRunner implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		logger.info("Run method of Command Line Runner is called.");
-		stateMachine.sendEvent(Events.E1);
-		stateMachine.sendEvent(Events.E2);
+		stateMachine.sendEvent(Events.EVENT1);
+		stateMachine.sendEvent(Events.EVENT2);
+		stateMachine.sendEvent(Events.EVENT3);	
 	}
 
 }
