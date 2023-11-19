@@ -15,7 +15,7 @@ public class StateMachineListener extends StateMachineListenerAdapter<States, Ev
 	@Override
 	public void stateChanged(State<States, Events> from, State<States, Events> to) {
 		String fromState = (from == null) ? States.START.toString() : from.getId().toString();
-		logger.info("State change from {} to {} with event {}", fromState, to.getId());
+		logger.info("State change from {} to {}", fromState, to.getId());
 	}
 
 }
