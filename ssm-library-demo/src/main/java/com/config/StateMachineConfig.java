@@ -14,7 +14,7 @@ import com.logging.LoggingMachineListener;
 import com.states.BookStates;
 
 @Configuration
-@EnableStateMachine
+@EnableStateMachine // creates a default state machine when the application starts
 public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<BookStates, BookEvents> {
 	// @formatter:off
     @Override
@@ -34,25 +34,25 @@ public class StateMachineConfig extends EnumStateMachineConfigurerAdapter<BookSt
     @Override
     public void configure(StateMachineTransitionConfigurer<BookStates, BookEvents> transitions) throws Exception {
         transitions
-                .withExternal()
-                .source(BookStates.AVAILABLE)
-                .target(BookStates.BORROWED)
-                .event(BookEvents.BORROW)
-                .and()
-                .withExternal()
-                .source(BookStates.BORROWED)
-                .target(BookStates.AVAILABLE)
-                .event(BookEvents.RETURN)
-                .and()
-                .withExternal()
-                .source(BookStates.AVAILABLE)
-                .target(BookStates.IN_REPAIR)
-                .event(BookEvents.START_REPAIR)
-                .and()
-                .withExternal()
-                .source(BookStates.IN_REPAIR)
-                .target(BookStates.AVAILABLE)
-                .event(BookEvents.END_REPAIR);
+         .withExternal()
+             .source(BookStates.AVAILABLE)
+             .target(BookStates.BORROWED)
+             .event(BookEvents.BORROW)
+         .and()
+         .withExternal()
+             .source(BookStates.BORROWED)
+             .target(BookStates.AVAILABLE)
+             .event(BookEvents.RETURN)
+         .and()
+         .withExternal()
+         	.source(BookStates.AVAILABLE)
+         	.target(BookStates.IN_REPAIR)
+            .event(BookEvents.START_REPAIR)
+         .and()
+         .withExternal()
+            .source(BookStates.IN_REPAIR)
+            .target(BookStates.AVAILABLE)
+            .event(BookEvents.END_REPAIR);
     }    
    // @formatter:on
 }

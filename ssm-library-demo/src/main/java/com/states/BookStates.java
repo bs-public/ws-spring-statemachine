@@ -1,7 +1,9 @@
 package com.states;
 
 public enum BookStates {
-	AVAILABLE, //
-	BORROWED, //
-	IN_REPAIR //
+	// @formatter:off
+	AVAILABLE,
+	BORROWED,
+	IN_REPAIR
+	// @formatter:on
 }
